@@ -2,21 +2,45 @@ package br.com.tarefas.minhas_tarefas.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table (name = "tarefas")
 public class Tarefa {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+
+    @Column(name = "ds_tarefa", nullable = false, length = 150)
     private String descricao;
 
+    @Enumerated(EnumType.STRING)
     private TarefaStatus status;
 
-    private LocalDate dataEntrga;
+    private LocalDate dataEntrega;
 
     private boolean visivel;
 
-    private TarefaCategoria categoria;
+    //private TarefaCategoria categoria;
 
-    private Usuario usuario;
+    //private Usuario usuario;
 
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
     
     public String getDescricao() {
         return descricao;
@@ -34,12 +58,12 @@ public class Tarefa {
         this.status = status;
     }
 
-    public LocalDate getDataEntrga() {
-        return dataEntrga;
+    public LocalDate getdataEntrega() {
+        return dataEntrega;
     }
 
-    public void setDataEntrga(LocalDate dataEntrga) {
-        this.dataEntrga = dataEntrga;
+    public void setdataEntrega(LocalDate dataEntrega) {
+        this.dataEntrega = dataEntrega;
     }
     
     public boolean isVisivel() {
