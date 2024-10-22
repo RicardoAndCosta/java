@@ -9,6 +9,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,9 +32,13 @@ public class Tarefa {
 
     private boolean visivel;
 
-    //private TarefaCategoria categoria;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private TarefaCategoria categoria;
 
-    //private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Usuario usuario;
 
 
     public Integer getId() {
