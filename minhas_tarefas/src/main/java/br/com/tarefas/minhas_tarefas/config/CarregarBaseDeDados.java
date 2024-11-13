@@ -17,7 +17,7 @@ import br.com.tarefas.minhas_tarefas.repository.TarefaRepository;
 import br.com.tarefas.minhas_tarefas.repository.UsuarioRepository;
 
 @Configuration
-@Profile("dev")
+//@Profile("dev") // Configuração para que apenas em desevolvimento há uma carga de dados no banco
 public class CarregarBaseDeDados {
 
     @Autowired
