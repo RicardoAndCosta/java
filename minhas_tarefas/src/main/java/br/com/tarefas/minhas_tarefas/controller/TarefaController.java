@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.tarefas.minhas_tarefas.model.Tarefa;
 import br.com.tarefas.minhas_tarefas.repository.TarefaRepository;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +38,9 @@ public class TarefaController {
         return repositorio.findById(id).orElse(null);
     }
 
+
     @PostMapping("/tarefa")
-    public Tarefa salvarTarefa(@RequestBody Tarefa tarefa) {
+    public Tarefa salvarTarefa(@Valid @RequestBody Tarefa tarefa) {
         return repositorio.save(tarefa);
     }
 
