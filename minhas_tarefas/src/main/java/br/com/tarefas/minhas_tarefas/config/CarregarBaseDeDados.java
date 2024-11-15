@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Profile;
 
 import br.com.tarefas.minhas_tarefas.model.Tarefa;
 import br.com.tarefas.minhas_tarefas.model.TarefaCategoria;
@@ -17,7 +17,7 @@ import br.com.tarefas.minhas_tarefas.repository.TarefaRepository;
 import br.com.tarefas.minhas_tarefas.repository.UsuarioRepository;
 
 @Configuration
-//@Profile("dev") // Configuração para que apenas em desevolvimento há uma carga de dados no banco
+@Profile("dev") // Configuração para que apenas em desevolvimento há uma carga de dados no banco
 public class CarregarBaseDeDados {
 
     @Autowired
