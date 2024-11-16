@@ -18,10 +18,13 @@ public class TarefaRequest {
     
     @FutureOrPresent(message = "{tarefa.descricao.future-or-present}")
     private LocalDate dataEntrega;
-
+    
+    @NotNull(message = "{tarefa.categoria.not-null}")
+    @Min(value = 1, message = "{tarefa.categoria.min}")
     private Integer categoriaId;
     
-
+    @NotNull(message = "{tarefa.categoria.not-null}")
+    @Min(value = 1, message = "{tarefa.categoria.min}")
     private Integer usuarioId;
 
     public Integer getId() {
