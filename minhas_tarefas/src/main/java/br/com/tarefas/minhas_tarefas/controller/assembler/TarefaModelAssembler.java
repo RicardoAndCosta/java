@@ -21,7 +21,7 @@ public class TarefaModelAssembler implements RepresentationModelAssembler<Tarefa
     @Autowired
     private ModelMapper mapper;
     
-    //@SuppressWarnings("null")
+    @SuppressWarnings("null")
     @Override
     public EntityModel<TarefaResponse> toModel(Tarefa tarefa) {
         TarefaResponse tarefaResp = mapper.map(tarefa, TarefaResponse.class);
@@ -35,7 +35,4 @@ public class TarefaModelAssembler implements RepresentationModelAssembler<Tarefa
             
         return tarefaModel;
     }
-
-
-
 }
