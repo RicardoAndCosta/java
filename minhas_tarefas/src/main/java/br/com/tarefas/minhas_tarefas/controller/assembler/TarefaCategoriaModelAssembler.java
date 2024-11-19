@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import br.com.tarefas.minhas_tarefas.controller.TarefaCategoriaController;
 import br.com.tarefas.minhas_tarefas.controller.response.TarefaCategoriaResponse;
 import br.com.tarefas.minhas_tarefas.model.TarefaCategoria;
+import br.com.tarefas.minhas_tarefas.model.TarefaStatus;
 
 @Component
 public class TarefaCategoriaModelAssembler implements RepresentationModelAssembler<TarefaCategoria, EntityModel<TarefaCategoriaResponse>>{
