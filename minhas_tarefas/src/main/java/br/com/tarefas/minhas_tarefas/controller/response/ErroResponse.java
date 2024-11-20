@@ -6,6 +6,10 @@ public class ErroResponse {
     
     private String mensagem;
 
+    public ErroResponse(String mensagem){
+        this.mensagem = mensagem;
+    }
+
     public ErroResponse(String campo, String mensagem){
         super();
         this.campo = campo;
