@@ -1,5 +1,6 @@
 package br.com.tarefas.minhas_tarefas.services;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,19 @@ public class UsuarioService {
         usuario.setRoles(roles);
         usuario.setSenha(encoder.encode(usuario.getSenha()));
         return usuarioRepositorio.save(usuario);
+    }
+
+    public Usuario atualizar(Integer id, Usuario usuario) {
+        if (usuarioRepositorio.existsById(id))
+            throw new EntityNotFoundException();
+
+        usuario.setId(id);
+
+        return salvar(usuario);
+    }
+
+    public void deleteById(Integer id) {
+        usuarioRepositorio.deleteById(id);
     }
 
     private Set<Role> getRoles(Usuario usuario) {
