@@ -17,7 +17,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private ERole nome;
@@ -25,8 +24,11 @@ public class Role {
     public Role() {
         
     }
+
+    public Role(ERole nome) {
+		this.nome = nome;
+	}
        
-    
     public Integer getId() {
         return id;
     }
