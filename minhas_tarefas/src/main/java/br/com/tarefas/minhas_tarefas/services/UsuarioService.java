@@ -1,16 +1,24 @@
 package br.com.tarefas.minhas_tarefas.services;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.tarefas.minhas_tarefas.controller.response.JwtResponse;
 import br.com.tarefas.minhas_tarefas.model.Role;
 import br.com.tarefas.minhas_tarefas.model.Usuario;
 import br.com.tarefas.minhas_tarefas.repository.RoleRepository;
 import br.com.tarefas.minhas_tarefas.repository.UsuarioRepository;
+import br.com.tarefas.minhas_tarefas.security.JwtUtils;
+import br.com.tarefas.minhas_tarefas.security.UserDetailsImpl;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -24,6 +32,12 @@ public class UsuarioService {
 
     @Autowired
     private PasswordEncoder encoder;
+    
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     public Usuario getUsuarioPorId(Integer id) {
         return usuarioRepositorio.findById(id).orElseThrow(() -> new EntityNotFoundException());
@@ -57,4 +71,26 @@ public class UsuarioService {
             .collect(Collectors.toSet());
         return rolesBanco;
     }
+
+    public JwtResponse autenticaUsuario(String nome, String senha) {
+        Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(nome, senha));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt =  jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) 
+                authentication.getPrincipal();
+
+        List<String> roles = userDetails.getAuthorities().stream()
+            .map(item -> item.getAuthority())
+            .collect(Collectors.toList());
+
+        return new JwtResponse(
+            jwt, 
+            userDetails.getId(), 
+            userDetails.getUsername(), 
+            roles);
+    }
+
 }
