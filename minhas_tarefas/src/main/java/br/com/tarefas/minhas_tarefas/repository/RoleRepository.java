@@ -7,7 +7,7 @@ import br.com.tarefas.minhas_tarefas.model.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    Role findByName(ERole nome);
+    Role findByNome(ERole nome);
 
     
 } 

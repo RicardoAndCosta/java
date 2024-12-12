@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -52,5 +53,12 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 return ResponseEntity.badRequest().body(errors);
         
     }
+
+    @ExceptionHandler(BadCredentialsException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	ErroResponse entityBadCredentialsException(BadCredentialsException ex) {
+		return new ErroResponse("Nome de Usuário e/ou senha inválidos");
+	}
+
 
 }

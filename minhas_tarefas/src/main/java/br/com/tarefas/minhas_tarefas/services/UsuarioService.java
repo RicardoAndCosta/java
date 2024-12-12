@@ -67,7 +67,7 @@ public class UsuarioService {
         Set<Role> rolesBanco = usuario
             .getRoles()
             .stream()
-            .map(role -> roleRepositorio.findByName(role.getNome()))
+            .map(role -> roleRepositorio.findByNome(role.getNome()))
             .collect(Collectors.toSet());
         return rolesBanco;
     }
