@@ -26,46 +26,40 @@ import br.com.tarefas.minhas_tarefas.services.UserDetailsServiceImpl;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private static final String[] PATHS = new String[] {"/tarefa/**", "/categoria/**", "/usuario/**"};
+	
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
 
-    private static final String[] PATHS = new String[] {"/tarefa/**", "/categoria/**", "/usuario/**"};
+	@Autowired
+	private AuthEntryPointJWT unauthorizedHandler;
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private AuthEntryPointJWT unauthorizedHandler;
-
-    /**
-     * Bean para codificador de senhas usando BCrypt.
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
+	@Bean
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
-
-    /**
-     * Bean para o AuthenticationManager.
-     */
+	
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-
-    /**
-     * Autenticação de usuário
-     * 
-     */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder());
-    }
+	
+	/**
+	 * AUTENTICAÇÃO
+	 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService)
+			.passwordEncoder(passwordEncoder());
+	}
+	
 	/**
 	 * AUTORIZAÇÃO
 	 */
@@ -80,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, PATHS)
 					.hasRole("ADMIN")
 				.antMatchers(HttpMethod.PUT, PATHS)
-					.hasRole("ADMIN")
+					.hasAnyRole("ADMIN", "USER")
 				.antMatchers(HttpMethod.DELETE, PATHS)
 					.hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, PATHS)
@@ -88,8 +82,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/h2-console/**").permitAll()
 				.anyRequest().authenticated()
 			.and()
-				.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+				.addFilterBefore(authenticationJwtTokenFilter(), 
+						UsernamePasswordAuthenticationFilter.class)
+			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 				
 	}
 	
@@ -102,5 +97,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 }
